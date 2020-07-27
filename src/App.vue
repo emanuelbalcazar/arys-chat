@@ -1,5 +1,7 @@
 <template>
   <v-app id="inspire">
+    
+    <!-- menu sidebar -->
     <v-navigation-drawer v-model="drawer" app clipped v-show="isAuthenticated()">
       <v-list dense>
         <v-list-item @click="goTo('Home')">
@@ -31,6 +33,7 @@
       </v-list>
     </v-navigation-drawer>
 
+    <!-- menu top bar -->
     <v-app-bar app clipped-left>
       <v-app-bar-nav-icon @click.stop="drawer = !drawer" v-show="isAuthenticated()"></v-app-bar-nav-icon>
       <v-toolbar-title>{{title}}</v-toolbar-title>
@@ -66,6 +69,7 @@ export default {
     signOut() {
       this.$store.dispatch("signUserOut");
       this.$router.push({ name: "Login" });
+      this.drawer = false;
     },
   },
 };

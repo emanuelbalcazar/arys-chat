@@ -107,7 +107,8 @@ export default {
       }
     },
     error(value) {
-      this.$toasted.error(value.message);
+      if (value.message)
+        this.$toasted.error(value.message);
     },
   },
   methods: {
