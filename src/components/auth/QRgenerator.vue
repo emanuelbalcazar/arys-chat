@@ -88,7 +88,7 @@ export default {
       });
 
       if (verified) {
-        this.$toasted.success("El codigo es correcto");
+        this.$toasted.success("Bienvenido al chat");
         this.$store.dispatch("userAuthenticated", true);
         this.$router.push({ name: "Home" });
       } else {
