@@ -1,12 +1,12 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 
-
+import Auth from './auth.js'
 import Home from '@/components/home/Home.vue'
 import About from '@/components/about/About.vue'
 import Login from '@/components/auth/Login.vue'
 import Register from '@/components/auth/Register.vue'
-import Auth from './auth.js'
+import QRgenerator from '@/components/auth/QRgenerator.vue'
 
 Vue.use(VueRouter)
 
@@ -36,6 +36,12 @@ const routes = [
     name: "About",
     component: About,
     beforeEnter: Auth
+  },
+  {
+    path: '/qr',
+    name: "QRgenerator",
+    component: QRgenerator//,
+    //beforeEnter: Auth
   }
 ]
 
