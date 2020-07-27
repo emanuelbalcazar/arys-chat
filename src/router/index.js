@@ -2,7 +2,6 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import { store } from '../store/index'
 
-//import Auth from './auth.js'
 import Home from '@/components/home/Home.vue'
 import About from '@/components/about/About.vue'
 import Login from '@/components/auth/Login.vue'
@@ -30,19 +29,16 @@ const routes = [
     path: '/home',
     name: 'Home',
     component: Home,
-    //beforeEnter: Auth
   },
   {
     path: '/about',
     name: "About",
     component: About,
-    //beforeEnter: Auth
   },
   {
     path: '/qr',
     name: "QRgenerator",
-    component: QRgenerator//,
-    //beforeEnter: Auth
+    component: QRgenerator
   }
 ]
 

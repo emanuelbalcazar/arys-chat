@@ -83,7 +83,7 @@ export default {
         password: this.password,
       });
 
-      if (!this.error) this.$router.push({ name: 'QRgenerator' });
+      if (!this.error.message) this.$router.push({ name: "QRgenerator" });
     },
   },
 };
