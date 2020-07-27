@@ -103,7 +103,7 @@ export default {
   watch: {
     user(value) {
       if (value !== null && value !== undefined) {
-        this.$router.push({ name: "Login" });
+        this.$router.push({ name: "Home" });
       }
     },
     error(value) {

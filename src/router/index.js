@@ -1,10 +1,12 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 
+
 import Home from '@/components/home/Home.vue'
 import About from '@/components/about/About.vue'
 import Login from '@/components/auth/Login.vue'
 import Register from '@/components/auth/Register.vue'
+import Auth from './auth.js'
 
 Vue.use(VueRouter)
 
@@ -26,12 +28,14 @@ const routes = [
   {
     path: '/home',
     name: 'Home',
-    component: Home
+    component: Home,
+    beforeEnter: Auth
   },
   {
     path: '/about',
     name: "About",
-    component: About
+    component: About,
+    beforeEnter: Auth
   }
 ]
 
