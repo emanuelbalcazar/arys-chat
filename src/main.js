@@ -4,9 +4,17 @@ import router from './router'
 import vuetify from './plugins/vuetify';
 import { store } from './store';
 import * as firebase from 'firebase'
+import Toasted from 'vue-toasted';
 
-Vue.config.productionTip = false
+Vue.config.productionTip = false;
 
+// configure vue-toasted
+Vue.use(Toasted, {
+  position: 'bottom-right',
+  duration: 4000
+});
+
+// initialize app
 new Vue({
   router,
   vuetify,

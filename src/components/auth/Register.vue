@@ -3,7 +3,7 @@
     <v-main>
       <v-container fluid>
         <v-row align="center" justify="center">
-          <v-col cols="6" sm="6" md="6">
+          <v-col cols="5" sm="5" md="5">
             <v-card class>
               <v-toolbar color="primary" dark flat>
                 <v-toolbar-title>Registrarse como usuario</v-toolbar-title>
@@ -12,6 +12,15 @@
 
               <v-card-text>
                 <v-form>
+                  <v-text-field
+                    label="Nombre de usuario"
+                    name="username"
+                    prepend-icon="mdi-account"
+                    type="text"
+                    v-model="username"
+                    required
+                  ></v-text-field>
+
                   <v-text-field
                     label="Correo electronico"
                     name="email"
@@ -44,17 +53,18 @@
                 </v-form>
               </v-card-text>
               <v-card-actions>
+                <v-btn color="default" @click="goTo('Login')">Volver</v-btn>
+
                 <v-spacer></v-spacer>
-                <v-btn color="primary" :disabled="password != confirmPassword" @click="register()">Registrarme</v-btn>
+                <v-btn
+                  color="primary"
+                  :disabled="password != confirmPassword"
+                  @click="register()"
+                  :loading="loading"
+                >Registrarme</v-btn>
               </v-card-actions>
             </v-card>
           </v-col>
-
-          <v-layout row v-if="error">
-            <v-flex xs12 sm6 offset-sm3>
-              <app-alert @dismissed="onDismissed" :text="error.message"></app-alert>
-            </v-flex>
-          </v-layout>
         </v-row>
       </v-container>
     </v-main>
@@ -96,11 +106,23 @@ export default {
         this.$router.push({ name: "Login" });
       }
     },
+    error(value) {
+      this.$toasted.error(value.message);
+    },
   },
   methods: {
     goTo(route) {
-      this.$store.dispatch("signUserIn");
       this.$router.push({ name: route });
+    },
+    register() {
+      this.$store.dispatch("signUserUp", {
+        username: this.username,
+        email: this.email,
+        password: this.password,
+      });
+    },
+    onDismissed() {
+      this.$store.dispatch("clearError");
     },
   },
 };

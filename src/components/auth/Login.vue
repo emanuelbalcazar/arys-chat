@@ -16,6 +16,8 @@
                     name="login"
                     prepend-icon="mdi-account"
                     type="text"
+                    v-model="email"
+                    required
                   ></v-text-field>
 
                   <v-text-field
@@ -24,6 +26,8 @@
                     name="password"
                     prepend-icon="mdi-lock"
                     type="password"
+                    v-model="password"
+                    required
                   ></v-text-field>
                 </v-form>
               </v-card-text>
@@ -31,7 +35,7 @@
                 <v-btn color="default" @click="goTo('Register')">Crear cuenta</v-btn>
 
                 <v-spacer></v-spacer>
-                <v-btn color="primary" @click="goTo('Home')">Entrar</v-btn>
+                <v-btn color="primary" @click="signIn()" :loading="loading">Entrar</v-btn>
               </v-card-actions>
             </v-card>
           </v-col>
@@ -46,10 +50,42 @@ export default {
   props: {
     source: String,
   },
+  data() {
+    return {
+      email: "",
+      password: "",
+    };
+  },
+  computed: {
+    user() {
+      return this.$store.getters.user;
+    },
+    error() {
+      return this.$store.getters.error;
+    },
+    loading() {
+      return this.$store.getters.loading;
+    },
+  },
+  watch: {
+    user(value) {
+      if (value !== null && value !== undefined) {
+        this.$router.push({ name: "Home" });
+      }
+    },
+    error(value) {
+      this.$toasted.error(value.message);
+    },
+  },
   methods: {
     goTo(route) {
-      this.$store.dispatch("signUserIn");
       this.$router.push({ name: route });
+    },
+    signIn() {
+      this.$store.dispatch("signUserIn", {
+        email: this.email,
+        password: this.password,
+      });
     },
   },
 };
