@@ -32,15 +32,15 @@ export const store = new Vuex.Store({
             commit('clearError');
             commit('setLoading', true);
 
-            let auth = await firebase.auth().createUserWithEmailAndPassword(payload.email, payload.password).catch(error => {
+            /*let auth = */await firebase.auth().createUserWithEmailAndPassword(payload.email, payload.password).catch(error => {
                 commit('setLoading', false);
                 commit('setError', error);
                 return;
             });
             
-            await firebase.database().ref('users').child(auth.user.uuid).set({ username: payload.username, email: payload.email, password: payload.password });
+            //await firebase.database().ref('users').child(auth.user.uuid).set({ username: payload.username, email: payload.email, password: payload.password });
             commit('setLoading', false);
-            commit('setUser', { id: auth.user.uuid, username: payload.username, email: payload.email });
+            commit('setUser', { /*id: auth.user.uuid,*/ username: payload.username, email: payload.email });
         },
         async signUserIn({ commit }, payload) {
             commit('setLoading', true);
