@@ -1,17 +1,20 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import * as firebase from 'firebase'
+import createPersistedState from "vuex-persistedstate";
 
 Vue.use(Vuex)
 
 export const store = new Vuex.Store({
+    plugins: [createPersistedState()],
     modules: {
 
     },
     state: {
         loading: false,
         error: null,
-        user: null
+        user: null,
+        isAuthenticated: false
     },
     mutations: {
         setLoading(state, payload) {
@@ -25,6 +28,9 @@ export const store = new Vuex.Store({
         },
         setUser(state, payload) {
             state.user = payload;
+        },
+        setAuthenticated(state, payload) {
+            state.isAuthenticated = payload;
         }
     },
     actions: {
@@ -32,15 +38,15 @@ export const store = new Vuex.Store({
             commit('clearError');
             commit('setLoading', true);
 
-            /*let auth = */await firebase.auth().createUserWithEmailAndPassword(payload.email, payload.password).catch(error => {
+            await firebase.auth().createUserWithEmailAndPassword(payload.email, payload.password).catch(error => {
                 commit('setLoading', false);
                 commit('setError', error);
                 return;
             });
-            
+
             //await firebase.database().ref('users').child(auth.user.uuid).set({ username: payload.username, email: payload.email, password: payload.password });
             commit('setLoading', false);
-            commit('setUser', { /*id: auth.user.uuid,*/ username: payload.username, email: payload.email });
+            commit('setUser', { email: payload.email });
         },
         async signUserIn({ commit }, payload) {
             commit('setLoading', true);
@@ -53,10 +59,15 @@ export const store = new Vuex.Store({
             });
 
             commit('setLoading', false);
-            commit('setUser', { id: auth.user.uid, username: auth.user.username, email: auth.user.email });
+            commit('setUser', { id: auth.user.uid, email: auth.user.email });
+        },
+        async userAuthenticated({ commit }, payload) {
+            commit('clearError');
+            commit('setAuthenticated', payload);
         },
         async signUserOut({ commit }) {
             commit('setUser', null);
+            commit('setAuthenticated', false);
         },
         async clearError({ commit }) {
             commit('clearError')
@@ -70,7 +81,7 @@ export const store = new Vuex.Store({
             return state.error
         },
         isAuthenticated(state) {
-            return (state.user != null && state.user.email != null);
+            return state.isAuthenticated;
         },
         user(state) {
             return state.user;

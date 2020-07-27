@@ -1,7 +1,8 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
+import { store } from '../store/index'
 
-import Auth from './auth.js'
+//import Auth from './auth.js'
 import Home from '@/components/home/Home.vue'
 import About from '@/components/about/About.vue'
 import Login from '@/components/auth/Login.vue'
@@ -29,13 +30,13 @@ const routes = [
     path: '/home',
     name: 'Home',
     component: Home,
-    beforeEnter: Auth
+    //beforeEnter: Auth
   },
   {
     path: '/about',
     name: "About",
     component: About,
-    beforeEnter: Auth
+    //beforeEnter: Auth
   },
   {
     path: '/qr',
@@ -46,7 +47,23 @@ const routes = [
 ]
 
 const router = new VueRouter({
-  routes
+  routes,
+  mode: 'history'
+});
+
+router.beforeEach((to, from, next) => {
+  console.log(store.getters.user)
+
+  if (to.name == "Home" && !store.getters.user)
+    router.push({ name: "Login" });
+
+  if (to.name == "Home" && store.getters.user && !store.getters.isAuthenticated)
+    router.push({ name: "QRgenerator" });
+
+  if (to.name == "Login" && store.getters.user && store.getters.isAuthenticated)
+    router.push({ name: "Home" });
+
+  next();
 })
 
 export default router;

@@ -13,15 +13,6 @@
               <v-card-text>
                 <v-form>
                   <v-text-field
-                    label="Nombre de usuario"
-                    name="username"
-                    prepend-icon="mdi-account"
-                    type="text"
-                    v-model="username"
-                    required
-                  ></v-text-field>
-
-                  <v-text-field
                     label="Correo electronico"
                     name="email"
                     prepend-icon="mdi-account"
@@ -79,7 +70,6 @@ export default {
   data() {
     return {
       email: "",
-      username: "",
       password: "",
       confirmPassword: "",
     };

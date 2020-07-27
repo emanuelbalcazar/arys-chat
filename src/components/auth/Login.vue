@@ -56,6 +56,7 @@ export default {
       password: "",
     };
   },
+  created() {},
   computed: {
     user() {
       return this.$store.getters.user;
@@ -68,14 +69,8 @@ export default {
     },
   },
   watch: {
-    user(value) {
-      if (value !== null && value !== undefined) {
-        this.$router.push({ name: "Home" });
-      }
-    },
     error(value) {
-      if (value.message)
-        this.$toasted.error(value.message);
+      if (value.message) this.$toasted.error(value.message);
     },
   },
   methods: {
@@ -87,6 +82,8 @@ export default {
         email: this.email,
         password: this.password,
       });
+
+      if (!this.error) this.$router.push({ name: 'QRgenerator' });
     },
   },
 };
