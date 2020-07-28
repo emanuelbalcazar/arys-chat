@@ -86,7 +86,6 @@ export default {
       this.$router.push({ name: route });
     },
     isAuthenticated() {
-      console.log(this.$store.getters);
       return this.$store.getters.user && this.$store.getters.isAuthenticated;
     },
     signOut() {

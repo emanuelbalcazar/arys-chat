@@ -48,8 +48,6 @@ const router = new VueRouter({
 });
 
 router.beforeEach((to, from, next) => {
-  console.log(store.getters.user)
-
   if (to.name == "Home" && !store.getters.user)
     router.push({ name: "Login" });
 

@@ -58,19 +58,26 @@ export const store = new Vuex.Store({
                 return;
             });
 
-            commit('setLoading', false);
-            commit('setUser', { id: auth.user.uid, email: auth.user.email });
+            if (auth != null) {
+                commit('setLoading', false);
+                commit('setUser', { id: auth.user.uid, email: auth.user.email });
+            }
         },
         async userAuthenticated({ commit }, payload) {
             commit('clearError');
             commit('setAuthenticated', payload);
+            commit('setLoading', false);
         },
         async signUserOut({ commit }) {
             commit('setUser', null);
             commit('setAuthenticated', false);
+            commit('setLoading', false);
         },
         async clearError({ commit }) {
             commit('clearError')
+        },
+        async setLoading({commit}, payload) {
+            commit('setLoading', payload);
         }
     },
     getters: {
