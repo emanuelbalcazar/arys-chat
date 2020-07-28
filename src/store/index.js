@@ -55,13 +55,15 @@ export const store = new Vuex.Store({
             let auth = await firebase.auth().signInWithEmailAndPassword(payload.email, payload.password).catch(error => {
                 commit('setLoading', false);
                 commit('setError', error);
-                return;
+                return false;
             });
 
-            if (auth != null) {
+            if (auth != false) {
                 commit('setLoading', false);
                 commit('setUser', { id: auth.user.uid, email: auth.user.email });
             }
+
+            return true;
         },
         async userAuthenticated({ commit }, payload) {
             commit('clearError');

@@ -109,7 +109,7 @@ export default {
     goTo(route) {
       this.$router.push({ name: route });
     },
-    register() {
+    async register() {
 
       if (!this.email.length)
         return this.$toasted.error("Ingrese un email valido");
@@ -117,7 +117,7 @@ export default {
       if (this.password == "")
         return this.$toasted.error("Ingrese una contraseña");
 
-      this.$store.dispatch("signUserUp", {
+      await this.$store.dispatch("signUserUp", {
         username: this.username,
         email: this.email,
         password: this.password,

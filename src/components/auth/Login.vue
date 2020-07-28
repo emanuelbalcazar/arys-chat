@@ -59,7 +59,7 @@ export default {
     };
   },
   created() {
-    this.$store.dispatch("setLoading", false);
+    //this.$store.dispatch("setLoading", false);
   },
   computed: {
     user() {
@@ -87,13 +87,16 @@ export default {
     goTo(route) {
       this.$router.push({ name: route });
     },
-    signIn() {
-      this.$store.dispatch("signUserIn", {
+    async signIn() {
+      await this.$store.dispatch("signUserIn", {
         email: this.email,
         password: this.password,
       });
 
-      if (this.error != null && this.error.message != null) this.$router.push({ name: "QRgenerator" });
+      if (this.error != null)
+        return;
+
+      this.$router.push({ name: "QRgenerator" });
     },
   },
 };
