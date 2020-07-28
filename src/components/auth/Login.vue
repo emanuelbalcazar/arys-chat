@@ -18,6 +18,7 @@
                     type="text"
                     v-model="email"
                     required
+                    :rules="[hasEmail]"
                   ></v-text-field>
 
                   <v-text-field
@@ -28,6 +29,7 @@
                     type="password"
                     v-model="password"
                     required
+                    :rules="[hasPassword]"
                   ></v-text-field>
                 </v-form>
               </v-card-text>
@@ -66,6 +68,12 @@ export default {
     },
     loading() {
       return this.$store.getters.loading;
+    },
+    hasEmail() {
+      return (this.email.length > 0) ? true : "Ingrese un correo electronico";
+    },
+    hasPassword() {
+      return (this.password.length > 0) ? true : "Ingrese una contraseña";
     },
   },
   watch: {

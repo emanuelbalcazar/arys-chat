@@ -19,6 +19,7 @@
                     type="email"
                     v-model="email"
                     required
+                    :rules="[hasEmail]"
                   ></v-text-field>
 
                   <v-text-field
@@ -49,7 +50,7 @@
                 <v-spacer></v-spacer>
                 <v-btn
                   color="primary"
-                  :disabled="password != confirmPassword"
+                  :disabled="validated()"
                   @click="register()"
                   :loading="loading"
                 >Registrarme</v-btn>
@@ -75,6 +76,9 @@ export default {
     };
   },
   computed: {
+    hasEmail() {
+      return (this.email.length > 0) ? true : "Ingrese un correo electronico";
+    },
     comparePasswords() {
       return this.password !== this.confirmPassword
         ? "Las contraseñas no coinciden"
@@ -106,6 +110,13 @@ export default {
       this.$router.push({ name: route });
     },
     register() {
+
+      if (!this.email.length)
+        return this.$toasted.error("Ingrese un email valido");
+
+      if (this.password == "")
+        return this.$toasted.error("Ingrese una contraseña");
+
       this.$store.dispatch("signUserUp", {
         username: this.username,
         email: this.email,
@@ -115,6 +126,9 @@ export default {
     onDismissed() {
       this.$store.dispatch("clearError");
     },
+    validated() {
+      return (this.password != this.confirmPassword)
+    }
   },
 };
 </script>
