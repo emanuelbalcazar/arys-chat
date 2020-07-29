@@ -75,7 +75,7 @@ export default {
       return (this.email.length > 0) ? true : "Ingrese un correo electronico";
     },
     hasPassword() {
-      return (this.password.length > 0) ? true : "Ingrese una contraseña";
+      return (this.password.length > 5) ? true : "Ingrese la contraseña";
     },
   },
   watch: {

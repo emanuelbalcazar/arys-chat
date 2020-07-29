@@ -38,13 +38,13 @@ export const store = new Vuex.Store({
             commit('clearError');
             commit('setLoading', true);
 
-            await firebase.auth().createUserWithEmailAndPassword(payload.email, payload.password).catch(error => {
+            let registered = await firebase.auth().createUserWithEmailAndPassword(payload.email, payload.password).catch(error => {
                 commit('setLoading', false);
                 commit('setError', error);
                 return;
             });
 
-            //await firebase.database().ref('users').child(auth.user.uuid).set({ username: payload.username, email: payload.email, password: payload.password });
+            await firebase.database().ref('users').child(registered.user.uid).set({ id: registered.user.uid, email: payload.email });
             commit('setLoading', false);
             commit('setUser', { email: payload.email });
         },

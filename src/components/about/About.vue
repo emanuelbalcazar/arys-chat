@@ -1,6 +1,10 @@
 <template>
   <div class="about">
-    <h1>This is an about page</h1>
+    <h4>ARyS Chat es un proyecto realizado por alumnos de la UNPSJB-PM para la materia
+      de Arquitectura de Redes y Servicios.
+      <br>
+      Desarrolladores: Balcazar, Carlos Emanuel y Savarro Mauricio.
+    </h4>
   </div>
 </template>
 

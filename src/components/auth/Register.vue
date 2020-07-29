@@ -30,6 +30,7 @@
                     type="password"
                     v-model="password"
                     required
+                    :rules="[hasPassword]"
                   ></v-text-field>
 
                   <v-text-field
@@ -79,12 +80,18 @@ export default {
     hasEmail() {
       return (this.email.length > 0) ? true : "Ingrese un correo electronico";
     },
+    hasPassword() {
+      return (this.password.length > 5) ? true : "Ingrese una contraseña de al menos 6 caracteres";
+    },
     comparePasswords() {
       return this.password !== this.confirmPassword
         ? "Las contraseñas no coinciden"
         : true;
     },
     user() {
+      return this.$store.getters.user;
+    },
+    isAuthenticated() {
       return this.$store.getters.user;
     },
     error() {

@@ -40,13 +40,14 @@
       <div v-show="isAuthenticated()" class="pull-right">{{email || 'No user'}}</div>
     </v-app-bar>
 
+    <!-- router view here -->
     <v-main>
       <v-container class fluid>
         <router-view />
       </v-container>
     </v-main>
 
-
+    <!-- asks the user if they want to exit -->
     <template>
       <v-row justify="center">
         <v-dialog v-model="dialog" persistent max-width="400">
