@@ -46,7 +46,7 @@ export const store = new Vuex.Store({
 
             await firebase.database().ref('users').child(registered.user.uid).set({ id: registered.user.uid, email: payload.email });
             commit('setLoading', false);
-            commit('setUser', { email: payload.email });
+            commit('setUser', {uid:registered.user.uid, email: payload.email });
         },
         async signUserIn({ commit }, payload) {
             commit('setLoading', true);
@@ -60,7 +60,7 @@ export const store = new Vuex.Store({
 
             if (auth != false) {
                 commit('setLoading', false);
-                commit('setUser', { id: auth.user.uid, email: auth.user.email });
+                commit('setUser', { uid: auth.user.uid, email: auth.user.email });
             }
 
             return true;

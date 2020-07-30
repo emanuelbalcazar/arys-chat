@@ -43,11 +43,41 @@
           </v-col>
         </v-row>
       </v-container>
+
+    <!-- Dialog para verificacion de 2 pasos -->
+    <template>
+      <v-row justify="center">
+        <v-dialog v-model="dialog" persistent max-width="400">
+          <v-card>
+            <v-card-title class="headline h3">Autenticacion de 2 fases requerida</v-card-title>
+            <h4>Para verificar que sea usted realmente requerimos que ingrese el codigo autogenerado por la aplicacion Google Autenthicator en su celular. Gracccciela</h4>
+            <v-text-field
+                    label="Codigo de celular"
+                    name="code"
+                    prepend-icon="mdi-account"
+                    type="number"
+                    v-model="codeUser"
+                    required
+                  ></v-text-field>
+                   <v-card-actions>
+                <v-spacer></v-spacer>
+                <v-btn color="green darken-1" text @click="dialog = false">Cancelar</v-btn>
+                <v-btn color="primary" @click="validate()">Validar codigo</v-btn>
+              </v-card-actions>
+          </v-card>
+        </v-dialog>
+      </v-row>
+    </template>
+
     </v-main>
   </v-app>
 </template>
 
+
+
 <script>
+import speakeasy from "speakeasy";
+import * as firebase from 'firebase'
 export default {
   props: {
     source: String,
@@ -56,6 +86,8 @@ export default {
     return {
       email: "",
       password: "",
+      dialog: false,
+      codeUser: ""
     };
   },
   created() {
@@ -95,8 +127,27 @@ export default {
 
       if (this.error != null)
         return;
-
-      this.$router.push({ name: "QRgenerator" });
+      this.dialog = true
+      //this.goTo("Home")
+    },
+    async validate() {
+      //Pedir secreto a la base de datos
+      var user = this.$store.getters.user
+      var secret = await firebase.database().ref('users').child(user.uid).once("value");
+      console.log(secret.val().secret.ascii)
+      var verified = speakeasy.totp.verify({
+        secret: secret.val().secret.ascii, 
+        encoding: "ascii",
+        token: this.codeUser,
+      });
+      if (verified) {
+        this.$toasted.success("Bienvenido al chat");
+        this.$store.dispatch("userAuthenticated", true);
+        this.$router.push({ name: "Home" });
+      } else {
+        this.$toasted.error("El codigo ingresado no es valido");
+        //dialog = false
+      }
     },
   },
 };

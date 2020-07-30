@@ -11,7 +11,8 @@
               </v-toolbar>
               <v-card-text>
                 <div class="QRgenerator">
-                  <h4>Utilizé la aplicación de Google Authenticator para obtener la clave temporal</h4>
+                  <h4>Esta aplicacion utiliza Autenticación de doble factor, para esto es necesario que le el siguiente codigo 
+                    QR con la aplicación de Google Authenticator para obtener claves temporales que seran solicitadas cada vez que inicie sesion</h4>
                   <br />
                   <img alt height="230px" width="230px" align="center" :src="qrUrl" />
                   <v-text-field
@@ -39,6 +40,7 @@
 <script>
 import speakeasy from "speakeasy";
 import qrcode from "qrcode";
+import * as firebase from 'firebase'
 
 export default {
   name: "QRgenerator",
@@ -75,19 +77,21 @@ export default {
   methods: {
     async generateCode() {
       this.secret = speakeasy.generateSecret({
-        name: "WeAreDevs",
+        name: "Arys-Chat",
       });
 
       this.qrUrl = await qrcode.toDataURL(this.secret.otpauth_url);
     },
-    validate() {
+    async validate() {
       var verified = speakeasy.totp.verify({
         secret: this.secret.ascii,
         encoding: "ascii",
         token: this.codeUser,
       });
-
+      var user = this.$store.getters.user
+      console.log(this.$store.getters.user.uid)
       if (verified) {
+        await firebase.database().ref('users').child(user.uid).update({ secret: this.secret});
         this.$toasted.success("Bienvenido al chat");
         this.$store.dispatch("userAuthenticated", true);
         this.$router.push({ name: "Home" });

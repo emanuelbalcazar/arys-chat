@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import { store } from '../store/index'
+//import { store } from '../store/index'
 
 import Home from '@/components/home/Home.vue'
 import About from '@/components/about/About.vue'
@@ -47,7 +47,7 @@ const router = new VueRouter({
   mode: 'history'
 });
 
-router.beforeEach((to, from, next) => {
+/*router.beforeEach((to, from, next) => {
   if (to.name == "Home" && !store.getters.user)
     router.push({ name: "Login" });
 
@@ -58,6 +58,6 @@ router.beforeEach((to, from, next) => {
     router.push({ name: "Home" });
 
   next();
-})
+})*/
 
 export default router;
