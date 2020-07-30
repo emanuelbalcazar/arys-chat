@@ -88,8 +88,9 @@ export default {
         encoding: "ascii",
         token: this.codeUser,
       });
-      var user = this.$store.getters.user
-      console.log(this.$store.getters.user.uid)
+      
+      let user = this.$store.getters.user;
+
       if (verified) {
         await firebase.database().ref('users').child(user.uid).update({ secret: this.secret});
         this.$toasted.success("Bienvenido al chat");
