@@ -12,6 +12,15 @@
           </v-list-item-content>
         </v-list-item>
 
+        <v-list-item @click="goTo('ChatList')">
+          <v-list-item-action>
+            <v-icon>mdi-chat</v-icon>
+          </v-list-item-action>
+          <v-list-item-content>
+            <v-list-item-title>Sala de Chats</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+
         <v-list-item @click="goTo('About')">
           <v-list-item-action>
             <v-icon>mdi-information</v-icon>

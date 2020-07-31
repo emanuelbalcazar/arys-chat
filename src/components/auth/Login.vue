@@ -57,7 +57,7 @@
                 <v-text-field
                   label="Codigo de celular"
                   name="code"
-                  prepend-icon="mdi-account"
+                  prepend-icon="mdi-lock"
                   type="number"
                   v-model="codeUser"
                   required
@@ -76,11 +76,10 @@
   </v-app>
 </template>
 
-
-
 <script>
 import speakeasy from "speakeasy";
 import * as firebase from "firebase";
+
 export default {
   props: {
     source: String,

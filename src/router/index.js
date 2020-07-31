@@ -7,6 +7,8 @@ import About from '@/components/about/About.vue'
 import Login from '@/components/auth/Login.vue'
 import Register from '@/components/auth/Register.vue'
 import QRgenerator from '@/components/auth/QRgenerator.vue'
+import ChatList from '@/components/chats/ChatList.vue'
+import Chat from '@/components/chats/Chat.vue'
 
 Vue.use(VueRouter)
 
@@ -39,7 +41,18 @@ const routes = [
     path: '/qr',
     name: "QRgenerator",
     component: QRgenerator
-  }
+  },
+  {
+    path: '/chats',
+    name: "ChatList",
+    component: ChatList
+  },
+  {
+    path: '/chats/:id',
+    name: 'Chat',
+    component: Chat,
+    props: true,
+  },
 ]
 
 const router = new VueRouter({

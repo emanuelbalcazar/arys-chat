@@ -46,7 +46,7 @@ export const store = new Vuex.Store({
 
             await firebase.database().ref('users').child(registered.user.uid).set({ id: registered.user.uid, email: payload.email });
             commit('setLoading', false);
-            commit('setUser', {uid:registered.user.uid, email: payload.email });
+            commit('setUser', { uid: registered.user.uid, email: payload.email });
         },
         async signUserIn({ commit }, payload) {
             commit('setLoading', true);
@@ -78,8 +78,18 @@ export const store = new Vuex.Store({
         async clearError({ commit }) {
             commit('clearError')
         },
-        async setLoading({commit}, payload) {
+        async setLoading({ commit }, payload) {
             commit('setLoading', payload);
+        },
+        async sendMessage({ commit }, payload) {
+            const message = {
+                email: payload.email,
+                content: payload.content,
+                date: payload.date,
+                chatID: payload.chatID
+            };
+
+            await firebase.database().ref('messages').child(payload.chatID).child('messages').push(message);
         }
     },
     getters: {
