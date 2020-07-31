@@ -91,27 +91,6 @@ export default {
   methods: {
     async loadRecentChats(/*lastKey*/) {
       var that = this;
-      /*let snapshot = await firebase
-        .database()
-        .ref("chats")
-        .orderByKey()
-        .limitToLast(30)
-        .once("value");*/
-      /*let chat;
-      await firebase
-        .database()
-        .ref("chats")
-        .once("value")
-        .then(async function (snapshot) {
-          chat = snapshot.val();
-          console.log(chat);
-          chat.key = snapshot.key;
-          chat.isAlreadyJoined = await that.isAlreadyJoined(
-          that.user.uid,
-          chat.key
-        );
-        that.loadedChats.unshift(chat);
-        });*/
 
       await firebase.database().ref("chats").on("value", async snapshot => {
           let chats = snapshot.val();
@@ -148,7 +127,7 @@ export default {
 
       await firebase.database().ref().update(updates);
       this.loading = false;
-      this.$router.push("/chat/" + chat.key);
+      this.$router.push("/chats/" + chat.key);
     },
     async createChatRoom() {
       if (this.chatName == "" && this.loading) return;
