@@ -150,7 +150,7 @@ export default {
       if (verified) {
         this.$toasted.success("Bienvenido al chat");
         this.$store.dispatch("userAuthenticated", true);
-        this.$router.push({ name: "Home" });
+        this.$router.push({ name: "ChatList" });
       } else {
         this.$toasted.error("El codigo ingresado no es valido");
         //dialog = false

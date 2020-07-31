@@ -3,15 +3,6 @@
     <!-- menu sidebar -->
     <v-navigation-drawer v-model="drawer" app clipped v-show="isAuthenticated()">
       <v-list dense>
-        <v-list-item @click="goTo('Home')">
-          <v-list-item-action>
-            <v-icon>mdi-view-dashboard</v-icon>
-          </v-list-item-action>
-          <v-list-item-content>
-            <v-list-item-title>Principal</v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
-
         <v-list-item @click="goTo('ChatList')">
           <v-list-item-action>
             <v-icon>mdi-chat</v-icon>

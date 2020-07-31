@@ -15,8 +15,8 @@
             </v-list-item-content>
           </v-list-item>
           <v-card-actions>
-            <v-btn text @click="joinChat(chat)" v-if="!chat.isAlreadyJoined">Unirse al chat</v-btn>
-            <v-btn v-if="chat.isAlreadyJoined" @click="enterChat(chat)">Entrar</v-btn>
+            <v-btn color="primary" text @click="joinChat(chat)" v-if="!chat.isAlreadyJoined">Unirse al chat</v-btn>
+            <v-btn color="info" v-if="chat.isAlreadyJoined" @click="enterChat(chat)">Entrar</v-btn>
           </v-card-actions>
         </v-card>
       </v-col>
@@ -68,7 +68,7 @@ export default {
       chatName: "",
     };
   },
-  mounted() {
+  created() {
     this.loadRecentChats();
   },
   computed: {
@@ -95,7 +95,6 @@ export default {
       await firebase.database().ref("chats").on("value", async snapshot => {
           let chats = snapshot.val();
           for (let chat in chats) {
-              console.log(chats[chat])
               chats[chat].key = chat
               chats[chat].isAlreadyJoined = await that.isAlreadyJoined(
                 that.user.uid,
@@ -112,6 +111,7 @@ export default {
         .ref("/chat_members/" + key + "/users/")
         .child(uid)
         .once("value");
+
       return aux.exists() ? aux.exists() : false;
     },
     async enterChat(chat) {

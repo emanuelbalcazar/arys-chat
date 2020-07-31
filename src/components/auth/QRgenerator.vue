@@ -95,7 +95,7 @@ export default {
         await firebase.database().ref('users').child(user.uid).update({ secret: this.secret});
         this.$toasted.success("Bienvenido al chat");
         this.$store.dispatch("userAuthenticated", true);
-        this.$router.push({ name: "Home" });
+        this.$router.push({ name: "ChatList" });
       } else {
         this.$toasted.error("El codigo ingresado no es valido");
       }

@@ -86,7 +86,7 @@ export default {
           .ref("messages")
           .child(chatID)
           .child("messages")
-          .limitToLast(20);
+          .limitToLast(500);
 
         this.currentRef.on("child_added", this.onNewMessageAdded);
       }
