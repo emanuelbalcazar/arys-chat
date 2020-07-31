@@ -1,17 +1,15 @@
 <template>
   <v-container fluid>
-    <v-row xs="10" sm="10" md="10">
-      <form @submit.prevent="createChat">
-        <v-text-field
-          name="chatname"
-          label="Nombre de la sala"
-          id="chatname"
-          v-model="chatName"
-          type="text"
-          required
-        ></v-text-field>
-      </form>
-    </v-row>
+    <form @submit.prevent="createChat">
+      <v-text-field
+        name="chatname"
+        label="Nombre de la sala"
+        id="chatname"
+        v-model="chatName"
+        type="text"
+        required
+      ></v-text-field>
+    </form>
   </v-container>
 </template>
 
@@ -20,7 +18,7 @@ import * as firebase from "firebase";
 
 export default {
   name: "CreateChatRoom",
-  props: ['uid'],
+  props: ["uid"],
   data() {
     return {
       chatName: "",
@@ -29,8 +27,6 @@ export default {
   },
   methods: {
     async createChat() {
-      console.log('>>>>', this.uid)
-      
       if (this.chatName == "" || this.loading) return;
 
       this.loading = true;
@@ -47,10 +43,6 @@ export default {
       updates["/chat_members/" + newPostKey + "/users/" + this.user.uid] = {
         timestamp: time,
       };
-      // guardo en el usuario que chat estuvo
-      // updates["users/" + this.user.uid + "/chats/" + newPostKey] = {
-      //   timestamp: time,
-      // };
 
       firebase
         .database()

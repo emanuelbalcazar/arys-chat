@@ -15,7 +15,12 @@
             </v-list-item-content>
           </v-list-item>
           <v-card-actions>
-            <v-btn color="primary" text @click="joinChat(chat)" v-if="!chat.isAlreadyJoined">Unirse al chat</v-btn>
+            <v-btn
+              color="primary"
+              text
+              @click="joinChat(chat)"
+              v-if="!chat.isAlreadyJoined"
+            >Unirse al chat</v-btn>
             <v-btn color="info" v-if="chat.isAlreadyJoined" @click="enterChat(chat)">Entrar</v-btn>
           </v-card-actions>
         </v-card>
@@ -25,23 +30,21 @@
     <!-- create chat room -->
     <template>
       <v-row justify="center">
-        <v-dialog v-model="dialog" persistent max-width="500">
+        <v-dialog v-model="dialog" persistent max-width="400">
           <v-card>
             <v-card-title class="headline h3">Crear una nueva sala de chat</v-card-title>
             <v-card-text>
-              <v-row xs="10" sm="10" md="10">
-                <form @submit.prevent="createChat">
-                  <v-text-field
-                    name="chatname"
-                    label="Nombre de la sala"
-                    id="chatname"
-                    v-model="chatName"
-                    type="text"
-                    required
-                    :rules="[hasName]"
-                  ></v-text-field>
-                </form>
-              </v-row>
+              <form @submit.prevent="createChat">
+                <v-text-field
+                  name="chatname"
+                  label="Nombre de la sala"
+                  id="chatname"
+                  v-model="chatName"
+                  type="text"
+                  required
+                  :rules="[hasName]"
+                ></v-text-field>
+              </form>
             </v-card-text>
             <v-card-actions>
               <v-spacer></v-spacer>
@@ -92,15 +95,18 @@ export default {
     async loadRecentChats(/*lastKey*/) {
       var that = this;
 
-      await firebase.database().ref("chats").on("value", async snapshot => {
+      await firebase
+        .database()
+        .ref("chats")
+        .on("value", async (snapshot) => {
           let chats = snapshot.val();
           for (let chat in chats) {
-              chats[chat].key = chat
-              chats[chat].isAlreadyJoined = await that.isAlreadyJoined(
-                that.user.uid,
-                chats[chat].key
-              );
-              that.loadedChats.unshift(chats[chat]);
+            chats[chat].key = chat;
+            chats[chat].isAlreadyJoined = await that.isAlreadyJoined(
+              that.user.uid,
+              chats[chat].key
+            );
+            that.loadedChats.unshift(chats[chat]);
           }
         });
     },
