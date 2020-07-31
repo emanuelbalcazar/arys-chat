@@ -89,28 +89,44 @@ export default {
     },
   },
   methods: {
-    async loadRecentChats(lastKey) {
-      let that = this;
-
-      let snapshot = await firebase
+    async loadRecentChats(/*lastKey*/) {
+      var that = this;
+      /*let snapshot = await firebase
         .database()
         .ref("chats")
         .orderByKey()
         .limitToLast(30)
-        .once("value");
-
-      that = this;
-
-      snapshot.forEach(async function (childSnapshot) {
-        let chat = childSnapshot.val();
-        chat.key = childSnapshot.key;
-        chat.isAlreadyJoined = await that.isAlreadyJoined(
+        .once("value");*/
+      /*let chat;
+      await firebase
+        .database()
+        .ref("chats")
+        .once("value")
+        .then(async function (snapshot) {
+          chat = snapshot.val();
+          console.log(chat);
+          chat.key = snapshot.key;
+          chat.isAlreadyJoined = await that.isAlreadyJoined(
           that.user.uid,
           chat.key
         );
         that.loadedChats.unshift(chat);
-      });
+        });*/
+
+      await firebase.database().ref("chats").on("value", async snapshot => {
+          let chats = snapshot.val();
+          for (let chat in chats) {
+              console.log(chats[chat])
+              chats[chat].key = chat
+              chats[chat].isAlreadyJoined = await that.isAlreadyJoined(
+                that.user.uid,
+                chats[chat].key
+              );
+              that.loadedChats.unshift(chats[chat]);
+          }
+        });
     },
+
     async isAlreadyJoined(uid, key) {
       let aux = await firebase
         .database()
@@ -129,7 +145,7 @@ export default {
         connected: true,
         timestamp: new Date().toLocaleString(),
       };
-      
+
       await firebase.database().ref().update(updates);
       this.loading = false;
       this.$router.push("/chat/" + chat.key);
@@ -148,13 +164,13 @@ export default {
       // agrego como miembro del chat al usuario
       updates["/chat_members/" + chatKey + "/users/" + this.user.uid] = {
         connected: true,
-        timestamp: new Date().toLocaleString()
+        timestamp: new Date().toLocaleString(),
       };
 
       // envio a actualizar los valores
       await firebase.database().ref().update(updates);
       this.loading = false;
-      this.$router.push("/chat/" + chatKey);
+      this.$router.push("/chats/" + chatKey);
     },
   },
 };

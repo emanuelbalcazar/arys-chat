@@ -5,9 +5,6 @@ import vuetify from './plugins/vuetify';
 import { store } from './store';
 import * as firebase from 'firebase'
 import Toasted from 'vue-toasted';
-import Chat from 'vue-beautiful-chat'
-
-Vue.use(Chat);
 
 Vue.config.productionTip = false;
 
