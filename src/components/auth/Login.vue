@@ -153,7 +153,6 @@ export default {
         this.$router.push({ name: "ChatList" });
       } else {
         this.$toasted.error("El codigo ingresado no es valido");
-        //dialog = false
       }
     },
   },

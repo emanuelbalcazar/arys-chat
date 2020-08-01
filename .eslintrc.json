@@ -1,5 +1,6 @@
 {
     "rules": {
         "no-unused-vars": "off"
-    }
+    },
+    "extends": ["plugin:vue/base"]
 }

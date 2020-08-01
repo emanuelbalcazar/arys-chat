@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-//import { store } from '../store/index'
+import { store } from '../store/index'
 
 import Home from '@/components/home/Home.vue'
 import About from '@/components/about/About.vue'
@@ -60,17 +60,18 @@ const router = new VueRouter({
   mode: 'history'
 });
 
-/*router.beforeEach((to, from, next) => {
-  if (to.name == "Home" && !store.getters.user)
-    router.push({ name: "Login" });
+// check if user is authenticated
+router.beforeEach((to, from, next) => {
 
-  if (to.name == "Home" && store.getters.user && !store.getters.isAuthenticated)
-    router.push({ name: "QRgenerator" });
+  if (to.name == "Login" || to.name == "QRgenerator" && store.getters.isAuthenticated) {
+    return next({name: "ChatList"});
+  }
 
-  if (to.name == "Login" && store.getters.user && store.getters.isAuthenticated)
-    router.push({ name: "Home" });
+  if (to.name != "Login" && to.name != "Register" && !store.getters.isAuthenticated) {
+    return next({name: "Login"})
+  } 
 
   next();
-})*/
+})
 
 export default router;
