@@ -67,7 +67,7 @@ router.beforeEach((to, from, next) => {
     return next({name: "ChatList"});
   }
 
-  if ((to.name != "Login" && to.name != "Register") && !store.getters.isAuthenticated) {
+  if ((to.name != "Login" && to.name != "Register" && to.name != "QRgenerator") && !store.getters.isAuthenticated) {
     return next({name: "Login"})
   } 
 
