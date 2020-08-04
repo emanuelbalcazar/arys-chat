@@ -64,7 +64,7 @@ const router = new VueRouter({
 router.beforeEach((to, from, next) => {
 
   if (to.name == "Login" || to.name == "QRgenerator" && store.getters.isAuthenticated) {
-    return next({name: "ChatList"});
+    //return next({name: "ChatList"});
   }
 
   if (to.name != "Login" && to.name != "Register" && !store.getters.isAuthenticated) {
