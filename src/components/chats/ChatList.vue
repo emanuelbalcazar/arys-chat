@@ -69,10 +69,13 @@ export default {
       loading: false,
       dialog: false,
       chatName: "",
+      currentRef: "",
     };
   },
-  created() {
-    this.loadRecentChats();
+  mounted() {
+    this.currentRef = firebase.database().ref("chats");
+    this.currentRef.on("child_added", this.onNewChat);
+    this.currentRef.on("child_removed", this.onChatRemoved);
   },
   computed: {
     user() {
@@ -90,25 +93,30 @@ export default {
       deep: true,
       handler() {},
     },
+    "$route.params.id"(newId, oldId) {
+      this.currentRef.off("child_added", this.onNewChat);
+      this.currentRef.off("child_removed", this.onChatRemoved);
+      this.loadRecentChats();
+    },
   },
   methods: {
-    async loadRecentChats(/*lastKey*/) {
+    async onNewChat(snapshot) {
       var that = this;
-
-      await firebase
-        .database()
-        .ref("chats")
-        .on("value", async (snapshot) => {
-          let chats = snapshot.val();
-          for (let chat in chats) {
-            chats[chat].key = chat;
-            chats[chat].isAlreadyJoined = await that.isAlreadyJoined(
-              that.user.uid,
-              chats[chat].key
-            );
-            that.loadedChats.unshift(chats[chat]);
-          }
-        });
+      let newChat = { name: snapshot.val().name, key: snapshot.key };
+      newChat.isAlreadyJoined = await that.isAlreadyJoined(
+        that.user.uid,
+        newChat.key
+      );
+      that.loadedChats.unshift(newChat);
+      //console.log(newChat)
+    },
+    async onChatRemoved(snapshot) {
+      //let chatRemoved = { name: snapshot.val().name, key: snapshot.key };
+      this.loadedChats = this.loadedChats.filter(function (chat){
+        if(snapshot.val().name == chat.name){
+          return false
+        }else return true
+      })
     },
     async isAlreadyJoined(uid, key) {
       let aux = await firebase

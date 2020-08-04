@@ -134,7 +134,7 @@ export default {
       this.dialog = true;
     },
     recover(){
-      goTo(QRgenerator)
+      this.goTo("QRgenerator")
     },
     async validate() {
       //Pedir secreto a la base de datos
