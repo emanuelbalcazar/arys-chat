@@ -5,7 +5,7 @@
         <v-banner single-line>
           <h3>{{chatName}}</h3>
           <template v-slot:actions>
-            <v-btn text color="error" @click="leaveChat()">Abandonar chat</v-btn>
+            <v-btn text color="error" @click="dialog = true">Abandonar chat</v-btn>
           </template>
         </v-banner>
 
@@ -30,11 +30,12 @@
       <v-row justify="center">
         <v-dialog v-model="dialog" persistent max-width="400">
           <v-card>
-            <v-card-title class="headline h3">¿Desea abandonar el chat?</v-card-title>
+            <v-card-title class="headline h4">¿Desea abandonar el chat?</v-card-title>
+            <v-card-text>Si el chat queda vacio, se eliminará automaticamente</v-card-text>
             <v-card-actions>
               <v-spacer></v-spacer>
-              <v-btn color="green darken-1" text @click="dialog = false">Cancelar</v-btn>
-              <v-btn color="green darken-1" text @click="leaveChat()">Salir</v-btn>
+              <v-btn color="blue darken-1" text @click="dialog = false">Cancelar</v-btn>
+              <v-btn color="red darken-1" text @click="leaveChat()">Salir</v-btn>
             </v-card-actions>
           </v-card>
         </v-dialog>
@@ -167,12 +168,15 @@ export default {
         .database()
         .ref("/chat_members/" + this.$route.params.id + "/users/")
         .once("value");
-      
+
+        console.log(room.numChildren())
+
       // compruebo si el chat queda vacio para borrarlo del listado de chats
       if (room.numChildren() == 0) {
         await firebase
           .database()
-          .ref("chats").child(this.$route.params.id)
+          .ref("chats")
+          .child(this.$route.params.id)
           .remove();
       }
 
