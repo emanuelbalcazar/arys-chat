@@ -66,6 +66,7 @@
               <v-card-actions>
                 <v-spacer></v-spacer>
                 <v-btn color="green darken-1" text @click="dialog = false">Cancelar</v-btn>
+                <v-btn color="primary" @click="recover()">Recuperar codigo</v-btn>
                 <v-btn color="primary" @click="validate()">Validar codigo</v-btn>
               </v-card-actions>
             </v-card>
@@ -131,6 +132,9 @@ export default {
       if (this.error != null) return;
 
       this.dialog = true;
+    },
+    recover(){
+      goTo(QRgenerator)
     },
     async validate() {
       //Pedir secreto a la base de datos
