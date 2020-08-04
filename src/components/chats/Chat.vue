@@ -163,6 +163,19 @@ export default {
         )
         .remove();
 
+      let room = await firebase
+        .database()
+        .ref("/chat_members/" + this.$route.params.id + "/users/")
+        .once("value");
+      
+      // compruebo si el chat queda vacio para borrarlo del listado de chats
+      if (room.numChildren() == 0) {
+        await firebase
+          .database()
+          .ref("chats").child(this.$route.params.id)
+          .remove();
+      }
+
       this.$router.push({ name: "ChatList" });
     },
   },

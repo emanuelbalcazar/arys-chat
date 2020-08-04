@@ -110,7 +110,6 @@ export default {
           }
         });
     },
-
     async isAlreadyJoined(uid, key) {
       let aux = await firebase
         .database()
