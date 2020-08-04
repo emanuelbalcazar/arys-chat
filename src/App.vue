@@ -84,7 +84,7 @@ export default {
   },
   methods: {
     goTo(route) {
-      this.$router.push({ name: route });
+      this.$router.push({ name: route }).catch(()=>{});
     },
     isAuthenticated() {
       return this.$store.getters.user && this.$store.getters.isAuthenticated;

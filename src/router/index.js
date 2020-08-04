@@ -63,11 +63,11 @@ const router = new VueRouter({
 // check if user is authenticated
 router.beforeEach((to, from, next) => {
 
-  if (to.name == "Login" || to.name == "QRgenerator" && store.getters.isAuthenticated) {
-    //return next({name: "ChatList"});
+  if ( to.name == "Login" && (store.getters.isAuthenticated == true)) {
+    return next({name: "ChatList"});
   }
 
-  if (to.name != "Login" && to.name != "Register" && !store.getters.isAuthenticated) {
+  if ((to.name != "Login" && to.name != "Register" && to.name != "QRgenerator") && !store.getters.isAuthenticated) {
     return next({name: "Login"})
   } 
 
