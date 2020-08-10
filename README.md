@@ -3,6 +3,9 @@ Implementación de un chat en tiempo real con autenticación de doble factor par
 
 Alumnos: Emanuel Balcazar y Mauricio Savarro.
 
+La aplicación se encuentra disponible en linea en: [https://arys-chat.web.app/chats](https://arys-chat.web.app/chats)
+
+
 ## Preparación
 
 Instalar nodejs: [NodeJS 12.x](https://nodejs.org/es/)
